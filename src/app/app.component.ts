@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
 export class AppComponent {
 
   csvText = '';
-  data: string[][] = [];
+  data: string[] = [];
   files: File[] = [];
   textAreaRows = 0;
 
@@ -25,9 +25,11 @@ export class AppComponent {
 
     for (const file of this.files) {
       const item = await this.pdfReaderService.getData(file);
-      this.data.push(item);
-      this.csvText += item.join('\n') + '\n'; // Concatenate CSV data for all files
-      this.textAreaRows += item.length;
+      if (Array.isArray(item)) {
+        this.data = this.data.concat(item); // Flatten and concatenate arrays
+        this.csvText += item.join('\n') + '\n'; // Concatenate CSV data for all files
+        this.textAreaRows += item.length;
+      }
     }
 
     this.textAreaRows += 5;
@@ -42,11 +44,9 @@ export class AppComponent {
     let wb = XLSX.utils.book_new();
     let ws_name = "SheetJS";
 
-    for (const file of this.data) {
-      let ws_data = file.map(line => [line]); // Convert each line to array for XLSX format
-      let ws = XLSX.utils.aoa_to_sheet(ws_data);
-      XLSX.utils.book_append_sheet(wb, ws, ws_name);
-    }
+    let ws_data = this.data.map(line => [line]); // Convert each line to array for XLSX format
+    let ws = XLSX.utils.aoa_to_sheet(ws_data);
+    XLSX.utils.book_append_sheet(wb, ws, ws_name);
 
     XLSX.writeFile(wb, 'output.xlsx');
   }
