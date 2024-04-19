@@ -1,9 +1,6 @@
 {
   "name": "pdf-to-csv",
   "version": "1.0.0",
-  "engines": {
-    "node": "12.x"
-  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
