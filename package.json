@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~12.2.6",
     "@angular/platform-browser-dynamic": "~12.2.6",
     "@angular/router": "~12.2.6",
-    "pdfjs-dist": "^2.9.359",
+    "pdfjs-dist": "^4.2.67",
     "rxjs": "~7.3.0",
     "tslib": "^2.3.1",
     "xlsx": "^0.17.2",
